@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Main {
-	
+public static int format=30;
 	public static void main(String[] args) throws IOException {
 //		long startTime = System.nanoTime();
 		
@@ -88,7 +88,10 @@ public class Main {
 	 */
 	public static void printList(ArrayList<Integer> list) {
 		for (int g = 0; g < list.size(); g++) {
-			System.out.print(list.get(g));
+			if((g+1)%format==0) {
+				System.out.print(list.get(g)+"\n");
+			}else {
+			System.out.print(list.get(g));}
 		}
 	}
 
