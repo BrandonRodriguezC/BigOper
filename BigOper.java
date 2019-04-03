@@ -188,6 +188,17 @@ public class BigOper {
 		return result;
 	}
 
+	/**
+	 * Based on a List <ArrayList<Integer>> the method erase the zeros added at the
+	 * top and then return the same List <ArrayList<Integer>>
+	 */
+	public static ArrayList<Integer> eraseTopZeros(ArrayList<Integer> list) {
+		while(list.get(0)==0) {
+			list.remove(0);
+		}
+		return list;
+		}
+
 	// Principal methods
 
 	/**
@@ -302,6 +313,12 @@ public class BigOper {
 	 * <String>, returns the result as List <ArrayList<Integer>>
 	 */
 	public static ArrayList<Integer> subtraction(String num1, String num2) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		if (num1.equals(num2)) {
+			list.add(0);
+			return list;
+		}
+		
 		int sign = 1;
 		
 		if (mayorThan(num2, num1)) {
@@ -322,7 +339,7 @@ public class BigOper {
 		}
 		num2 = complement(num2);
 
-			ArrayList<Integer> list = new ArrayList<Integer>();
+			
 			int carry = 0, number, unit;
 			for (int i = num2.length() - 1; i >= 0; i--) {
 				number = Character.getNumericValue(num1.charAt(i)) + Character.getNumericValue(num2.charAt(i));
@@ -348,9 +365,7 @@ public class BigOper {
 				position--;
 			}
 			list.set(0, list.get(0) * sign);
-			while(list.get(0)==0) {
-				list.remove(0);
-			}
+			list=eraseTopZeros(list);
 			return list;
 		
 	}
@@ -360,6 +375,12 @@ public class BigOper {
 	 * <String>, returns the result as a result <ArrayList<Integer>>
 	 */
 	public static ArrayList<Integer> multiplication(String number1, String number2) {
+		String result = "";
+		if(number1.equals("0")||number2.equals("0")) {
+			result="0";
+			return creatingNumber(result);
+		}
+		
 		if (mayorThan(number2, number1)) {
 			String aux = number1;
 			number1 = number2;
@@ -367,7 +388,7 @@ public class BigOper {
 		}
 		ArrayList<Integer> num1= creatingNumber(number1);
 		ArrayList<Integer> num2= creatingNumber(number2);
-		String result = "";
+		
 		ArrayList<String> nums = new ArrayList<String>();
 		int number, unit, carry=0;
 		
@@ -416,14 +437,28 @@ public class BigOper {
 		int end=number1.length();
 		ArrayList<Integer> result=new ArrayList<Integer> ();
 		
+		if(number1.equals(number2)) {
+			result.add(1);
+			return result;
+		}else if (number1.equals("0")) {
+			result.add(0);
+			return result;
+		}else if (number2.equals("0")) {
+			result.add(1/0);
+			return result;
+		}
+		
+		
 		while(countEnd<end+1) {
 			shortN=shortN+number1.substring(countStart, countEnd);
 			
 			if(mayorThan(number2,shortN )) {
 				unit=0;
 			}else {
-				while(mayorThan(shortN, number2)) {
+				while(mayorThan(shortN, number2) ) {
+					System.out.println(shortN+"-"+number2);
 					shortN=arrayListToString(subtraction(shortN, number2));
+					System.out.println("="+shortN);
 					unit++;
 				}
 			}
@@ -434,6 +469,7 @@ public class BigOper {
 			countStart=countEnd;
 			countEnd++;
 		}
+		result=eraseTopZeros(result);
 		
 		return result;
 	}
